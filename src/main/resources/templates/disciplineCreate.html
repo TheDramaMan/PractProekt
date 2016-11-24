@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3" lang="en">
+
+<head>
+    <meta charset="utf-8"/>
+    <title>Редагування дисципліни</title>
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css"/>
+    <link href="/assets/css/disciplines.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/assets/css/discipline-create.css"/>
+    <link href="/assets/css/animate.css" rel="stylesheet"/>
+    <script src="/assets/js/jquery.min.js"></script>
+    <script th:text="'var id = ' + ${discipline.id}"></script>
+</head>
+
+<body>
+<nav class="navbar navbar-inverse" role="navigation">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="#">Редагування дисципліни</a>
+    </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="/disciplines">Список дисциплін</a></li>
+            <!--<li sec:authorize="isAnonymous()" ><a href="/login">Увійти</a></li>-->
+            <li sec:authorize="isAuthenticated()" class="dropdown"><a href="#" class="dropdown-toggle"
+                                                                      data-toggle="dropdown"><span
+                    sec:authentication="name" class="username" id="username">Wat</span><b
+                    class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a href="/logout">Вийти</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <!-- /.navbar-collapse -->
+</nav>
+<div class="container">
+    <h2 class="form-signin-heading">Редагування дисципліни</h2>
+
+    <form class="form-horizontal" role="form" method="post" action="/api/discipline">
+        <div class="form-group">
+            <label class="col-lg-3 control-label">Назва:</label>
+            <div class="col-lg-5">
+                <input type="text" name="name" id="name" class="form-control" required="required" th:value="${discipline.name}"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-3 control-label">К-ть кредитів:</label>
+            <div class="col-lg-5">
+                <input type="text" name="credits" id="credits" class="form-control" required="required"
+                       th:value="${discipline.credits}"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-3 control-label">Викладач:</label>
+            <div class="col-lg-5">
+                <div class="ui-select">
+                    <select class="form-control" name="teacher_id" id="teacher">
+                        <option th:each="teacher : ${teachers}" th:value="${teacher.id}" th:text="${teacher.name}" th:selected="${teacher.id == discipline.teacher.id}">
+                            Test
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 control-label"></label>
+            <div class="col-md-8">
+                <input class="btn btn-primary" type="button" id="save" value="Зберегти зміни"/>
+            </div>
+        </div>
+    </form>
+
+    <!--<input type="hidden" name="teacher_id" id="teacher_id"/>-->
+    <!--<div class="btn-group">-->
+    <!--<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" id="selected_teacher_name">-->
+    <!--Виберіть викладача <span class="caret"></span>-->
+    <!--</button>-->
+    <!--<ul class="dropdown-menu" role="menu" id="teacher_id_container">-->
+    <!--</ul>-->
+    <!--</div>-->
+    <!--<button class="btn btn-lg btn-primary btn-block" type="submit">Create</button>-->
+</div>
+<div id="option_template" style="display: none;">
+    <li>
+        <a href="#"></a>
+    </li>
+</div>
+<script type="text/javascript" src="/assets/js/bootstrap-notify.min.js"></script>
+<script type="text/javascript" src="/assets/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/assets/js/discipline-create.js"></script>
+</body>
+
+</html>

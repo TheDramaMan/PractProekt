@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Login</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/assets/css/discipline-create.css" />
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="container">
+        <form class="form-signin" role="form" method="post" action="/api/discipline">
+            <h2 class="form-signin-heading">Create new discipline</h2>
+            <input type="text" name="name" class="form-control" placeholder="Name" required="required" autofocus="autofocus" />
+            <input type="text" name="credits" class="form-control" placeholder="Credits" required="required" />
+            <input type="text" name="teacher_id" />
+            <div class="btn-group">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" id="selected_teacher_name">
+                    Виберіть викладача <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu" id="teacher_id_container">
+                </ul>
+            </div>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Create</button>
+        </form>
+    </div>
+    <div id="option_template">
+        <li>
+            <a href="#"></a>
+        </li>
+    </div>
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/assets/js/discipline-create.js"></script>
+</body>
+
+</html>

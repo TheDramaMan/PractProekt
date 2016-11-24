@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title>Список дисциплін</title>
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet"/>
+    <script src="/assets/js/jquery.min.js"></script>
+    <script src="/assets/js/jquery.fittext.js"></script>
+    <link href="/assets/css/disciplines.css" rel="stylesheet"/>
+    <link href="/assets/css/animate.css" rel="stylesheet"/>
+    <script>
+        //To be defined in future
+        var newDiscipline = false;
+        var loadEnrolled = false;
+        var disciplines = {};
+    </script>
+</head>
+
+<body>
+<nav class="navbar navbar-inverse" role="navigation">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="#">Запис на вибіркові дисципліни</a>
+    </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-right">
+            <li class="active"><a href="#">Список дисциплін</a></li>
+            <li sec:authorize="isAnonymous()"><a href="/login">Увійти</a></li>
+            <li sec:authorize="hasRole('STUDENT')"><a href="#">Кредити:
+                <span id="total_credits">0</span>/30
+            </a></li>
+            <li sec:authorize="isAuthenticated()" class="dropdown"><a href="#" class="dropdown-toggle"
+                                                                      data-toggle="dropdown"><span
+                    sec:authentication="name" class="username" id="username">Wat</span><b
+                    class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a th:href="@{'/students/' + ${#authentication.name}}">Перегляд вибраних дисциплін</a></li>
+                    <li class="divider"></li>
+                    <li><a href="/logout">Вийти</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <!-- /.navbar-collapse -->
+</nav>
+<div class="container">
+    <div class="row" id="discipline_container">
+        <div class="col-sm-12" id="spinner">
+            <div class="spinner">
+                <div class="rect1"></div>
+                <div class="rect2"></div>
+                <div class="rect3"></div>
+                <div class="rect4"></div>
+                <div class="rect5"></div>
+            </div>
+        </div>
+        <div class="col-sm-12" id="empty_disc" style="display: none;">
+            <center>
+                <h2>Ще не додано жодної дисципліни</h2>
+            </center>
+        </div>
+    </div>
+</div>
+<div id="additionalInfo" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    <strong id="discipline_modal">Додаткова іформація про
+                        дисципліну</strong>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <strong>Викладач:</strong> <span id="teacher_modal"></span>
+                </div>
+                <div>
+                    <strong>Кількість кредитів:</strong> <span id="credits_modal"></span>
+                </div>
+                <div>
+                    <strong>Опис дисципліни:</strong> <span id="annotation_modal"></span>
+                </div>
+                <hr/>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" href="#student_list_spoiler">Список записаних студентів <span
+                                    id="student_count_modal"></span></a>
+                        </h4>
+                    </div>
+                    <div id="student_list_spoiler" class="panel-collapse collapse">
+                        <div class="panel-body" id="student_list_modal"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="template" style="display: none">
+    <div class="col-md-6 col-lg-4 discipline">
+        <div class="thumbnail">
+            <div class="caption">
+                <span class="title"></span><span class="label label-info recommended">Рекомендована</span>
+            </div>
+            <div class="row" style="margin-left: 3px !important; margin-right: 3px !important; margin-bottom: 10px;">
+                <div class="col-sm-6">Викладач</div>
+                <div class="col-sm-6 teacher_name"></div>
+                <div class="col-sm-6">Кредити</div>
+                <div class="col-sm-6 credits"></div>
+                <div class="col-sm-12">
+                    <hr/>
+                </div>
+                <div class="col-sm-6 btn-group">
+                    <a class="btn btn-warning full-width additional_info" role="button" data-toggle="modal"
+                       data-target="#additionalInfo">Докладніше</a>
+                </div>
+                <!-- ybrikk-->
+                <div th:if="${canEnroll}" sec:authorize="hasRole('STUDENT')" class="col-sm-6 btn-group">
+                    <a class="btn btn-info full-width enroll_unroll" role="button">Записатись</a>
+                </div>
+                <div sec:authorize="hasRole('ADMIN')" class="col-sm-6 btn-group">
+                    <a class="btn btn-info full-width edit" role="button">Редагувати</a>
+                </div>
+                <div th:if="${canEdit}" sec:authorize="hasRole('METHODIST')" class="col-sm-6 btn-group">
+                    <a class="btn btn-info full-width recommend" role="button">Рекомендувати</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/assets/js/bootstrap-notify.min.js"></script>
+<script sec:authorize="hasRole('STUDENT')" type="text/javascript" src="/assets/js/disciplines-student.js"></script>
+<script sec:authorize="hasRole('ADMIN')" type="text/javascript" src="/assets/js/disciplines-admin.js"></script>
+<script sec:authorize="hasRole('METHODIST')" type="text/javascript" src="/assets/js/disciplines-methodist.js"></script>
+<script type="text/javascript" src="/assets/js/disciplines.js"></script>
+<script src="/assets/js/bootstrap.min.js"></script>
+</body>
+
+</html>
