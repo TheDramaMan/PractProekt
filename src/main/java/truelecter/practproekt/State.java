@@ -12,18 +12,19 @@ public enum State {
     private static State currentState = ONGOING;
 
     public void apply(Model mdl) {
-//        if (this == PRE){
-//            mdl.addAttribute("canEnroll", false);
-//            mdl.addAttribute("canEdit", true);
-//        }
-//        if (this == ONGOING){
-//            mdl.addAttribute("canEnroll", true);
-//            mdl.addAttribute("canEdit", false);
-//        }
-//        if (this == POST){
-//            mdl.addAttribute("canEnroll", false);
-//            mdl.addAttribute("canEdit", false);
-//        }
+/*        if (this == PRE){
+            mdl.addAttribute("canEnroll", false);
+            mdl.addAttribute("canEdit", true);
+        }
+        if (this == ONGOING){
+            mdl.addAttribute("canEnroll", true);
+            mdl.addAttribute("canEdit", false);
+        }
+        if (this == POST){
+            mdl.addAttribute("canEnroll", false);
+            mdl.addAttribute("canEdit", false);
+        }
+*/
         mdl.addAttribute("canEnroll", true);
         mdl.addAttribute("canEdit", true);
     }
